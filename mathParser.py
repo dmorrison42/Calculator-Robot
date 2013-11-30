@@ -18,6 +18,9 @@ class MathParser:
       expr -- String: The expression to be evaluated
       usr -- The namespace in which the variables are stored
     '''
+    # Remove spaces before begining
+    expr = expr.replace(' ','')
+
     try:
       if '=' in expr:
         # Handle Assignment
