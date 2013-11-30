@@ -13,7 +13,7 @@ import sleekxmpp
 import logging
 from optparse import OptionParser
 import getpass
-from mathParser import MathParser
+from calculatorRobot import CalculatorBot
 
 # Python versions before 3.0 do not use UTF-8 encoding
 # by default. To ensure that Unicode is handled properly
@@ -25,25 +25,26 @@ if sys.version_info < (3, 0):
 else:
   raw_input = input
 
-class CalculatorBot(sleekxmpp.ClientXMPP):
-  mathParser = MathParser()
+class ClientBot(sleekxmpp.ClientXMPP):
 
   '''
-  A simple SleekXMPP bot that preforms basic mathematical calculations
+  A simple SleekXMPP bot communicates with a calculator robot
   '''
 
-  def __init__(self, jid, password, server, port = 5222):
+  def __init__(self, jid, password, target, server, port = 5222):
     '''
     Initiates the class 
     
     Arguments:
       jid -- String: The of the jid of the robot
       password -- String: The password of the robot
+      target -- String: The jid of the robot to communicate with
       server -- String: The server of the robot (eg talk.google.com)
       port -- Integer: The port of the robot (default 5222)
     '''
     self.clientServer = server
     self.port = port
+    self.target = target
 
     # Sends initilization to parent class
     sleekxmpp.ClientXMPP.__init__(self, jid, password)
@@ -61,8 +62,10 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
            event does not provide any additional
            data.
     '''
+    print("Request: hello")
     self.send_presence()
     self.get_roster()
+    self.sendMessage(self.target, 'hello')
 
   def message(self, msg):
     '''
@@ -75,40 +78,11 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
     '''
     # Check Message Type
     if msg['type'] in ('chat', 'normal'):
-      # Check for keywords before parsing
-      if msg['body'].upper().strip() == 'HELLO':
-        msg.reply('world').send()
-      elif msg['body'].upper().strip() == 'AUTHOR':
-        msg.reply('Daniel Morrison').send()
-      elif msg['body'].upper().strip() == 'HELP':
-        help='''\
-          # Commands: #
-          + Help: Prints this screen
-          + Author: Prints the author's name
-          + Hello: Prints world
-          # Setting Variables: #
-          > Variables must be set one at a time using the following syntax 
-          # Answer Variable #
-          + request 4+4
-          + response 8
-          + request: ans + 2 
-          + response: 10
-          + foo = 4+4
-          > Note: variables are case sensitive
-          # Math: #
-          > Supports the following operators using the PEMDAS order of operations.
-          + Parentheses: () 
-          + Exponents: ^
-          + Multiplication: *
-          + Division: /
-          + Addition: +
-          + Subtraction: -
-          '''
-        msg.reply(help).send()
-      # Handle non keywords expressions
-      else:
-        msg.reply(self.mathParser.eval(msg['body'], str(msg['from']))).send()
-
+      print('Response: ' + msg['body'])
+      request = raw_input("Request: ")
+      msg.reply(request).send()
+      if request is 'exit':
+        sys.exit(0)
 
   def startConnection(self, blocking=True):
     # Connect to the XMPP server and start processing XMPP stanzas.
@@ -133,34 +107,58 @@ if __name__ == '__main__':
                   action='store_const', dest='loglevel',
                     const=5, default=logging.INFO)
 
-  # Login options
-  optp.add_option("-j", "--jid", dest="jid",
-                  help="JID to use")
-  optp.add_option("-p", "--password", dest="password",
-                  help="password to use")
-  optp.add_option("-s", "--server", dest="server",
-                  help="server to use")
-  optp.add_option("-u", "--port", dest="port",
-                  help="port to use (default 5222)")
+  # Login options client
+  optp.add_option("-j", "--client-jid", dest="client_jid",
+                  help="JID to use for client")
+  optp.add_option("-p", "--client-password", dest="client_password",
+                  help="password to use for client")
+  optp.add_option("-s", "--client-server", dest="client_server",
+                  help="server to use for client")
+  optp.add_option("-u", "--client-port", dest="client_port",
+                  help="port to use for client (default 5222)")
+
+  # Login options robot
+  optp.add_option("-J", "--robot-jid", dest="robot_jid",
+                  help="JID to use for robot")
+  optp.add_option("-P", "--robot-password", dest="robot_password",
+                  help="password to use for robot")
+  optp.add_option("-S", "--robot-server", dest="robot_server",
+                  help="server to use for robot")
+  optp.add_option("-U", "--robot-port", dest="robot_port",
+                  help="port to use for robot (default 5222)")
 
   opts, args = optp.parse_args()
+  
   # Setup logging.
   logging.basicConfig(level=opts.loglevel,
                       format='%(levelname)-8s %(message)s')
 
-
-  if opts.jid is None:
-      opts.jid = raw_input("Username: ")
-  if opts.password is None:
-      opts.password = getpass.getpass("Password: ")
+  # Client Live Login
+  if opts.client_jid is None:
+      opts.client_jid = raw_input("Client Username: ")
+  if opts.client_password is None:
+      opts.cleint_password = getpass.getpass("Client Password: ")
   #Only request port if server is not specified
-  if opts.server is None:
-    opts.server = raw_input("Server: ")
-    opts.port = raw_input("Port (default: 5222): ")
-  if not opts.port:
-    opts.port = 5222
+  if opts.client_server is None:
+    opts.client_server = raw_input("Client Server: ")
+    opts.client_port = raw_input("Client Port (default: 5222): ")
+  if not opts.client_port:
+    opts.client_port = 5222
+
+  # Server Live Login
+  if opts.robot_jid is None:
+      opts.robot_jid = raw_input("Client Username: ")
+  if opts.robot_password is None:
+      opts.robot_password = getpass.getpass("Client Password: ")
+  #Only request port if server is not specified
+  if opts.robot_server is None:
+    opts.robot_server = raw_input("Client Server: ")
+    opts.robot_port = raw_input("Client Port (default: 5222): ")
+  if not opts.robot_port:
+    opts.robot_port = 5222
   
   # Create Object
-  #xmpp = CalculatorBot(opts.jid, opts.password, opts.server, int(opts.port)).startConnection()
-  xmpp = CalculatorBot(opts.jid, opts.password, opts.server, opts.port).startConnection()
+  calculator = CalculatorBot(opts.robot_jid, opts.robot_password, opts.robot_server, opts.robot_port).startConnection(blocking=False)
+  client = ClientBot(opts.client_jid, opts.client_password, '14sbu5okz0vtk1mx733u8fyrbe@public.talk.google.com', opts.client_server, opts.client_port).startConnection(blocking=True)
+  sys.exit(0)
 
