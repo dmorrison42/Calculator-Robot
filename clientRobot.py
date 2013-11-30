@@ -81,6 +81,9 @@ class ClientBot(sleekxmpp.ClientXMPP):
     if msg['type'] in ('chat', 'normal'):
       print('Response: ' + msg['body'])
       request = raw_input('Request: ')
+      #Avoid invalid response
+      while request is '':
+        request = raw_input('Request: ')
       if request == 'exit':
         print('Attempt to exit.')
         self.disconnect()

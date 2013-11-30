@@ -27,7 +27,7 @@ class MathParser:
         terms = expr.split('=',1)
         if '=' in terms:
           raise SyntaxError('One assignment per message')
-        if not terms[1]:
+        if not terms[0].isalpha():
           raise SyntaxError('Alphanumeric variable names only')
         queue = self.infix_to_prefix(terms[1])
         response = self.process_queue(queue, usr)
