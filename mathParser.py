@@ -4,7 +4,7 @@ import re
 
 class MathParser:
   '''
-  A safe eval() function for basic mathmatical calculations
+  A safe eval() function for basic mathematical calculations
   '''
   # dictionary containing variables in the following format variables[jid][variable]
   variables = {}
@@ -18,12 +18,12 @@ class MathParser:
       expr -- String: The expression to be evaluated
       usr -- The namespace in which the variables are stored
     '''
-    # Remove spaces before begining
+    # Remove spaces before beginning
     expr = expr.replace(' ','')
 
     try:
+      # Handle Assignment
       if '=' in expr:
-        # Handle Assignment
         terms = expr.split('=',1)
         if '=' in terms:
           raise SyntaxError('One assignment per message')
@@ -31,7 +31,7 @@ class MathParser:
           raise SyntaxError('Alphanumeric variable names only')
         queue = self.infix_to_prefix(terms[1])
         response = self.process_queue(queue, usr)
-
+        #Ensure variable gets saved in namespace
         try:
           self.variables[usr][terms[0]] = response
         except:
@@ -82,7 +82,7 @@ class MathParser:
           continue
         stack.append(token)
       except ValueError:
-        #Parentheses
+        # Parentheses
         if token is '(':
           stack.append(token)
           continue
@@ -94,7 +94,7 @@ class MathParser:
               token = stack.pop()
             continue
           except IndexError: raise SyntaxError('Unmatched Parentheses')
-        #Variables and Floats   
+        # Variables and Floats   
         queue.append(token)
     while stack:
       queue.append(stack.pop())
@@ -102,7 +102,7 @@ class MathParser:
         raise SyntaxError('Unmatched Parentheses')
     return queue
 
-  #Process the queue
+  # Process the queue
   def process_queue(self, queue, usr='default'):
     '''
     Process a postfix queue and return a float result
@@ -113,7 +113,9 @@ class MathParser:
     '''
     stack = []
     while queue:
+      # Get next element in queue
       token = queue.pop(0)
+      # If it is a variable, process it
       if isinstance(token, Operator):
         try: stack.append(token(stack.pop(-2),stack.pop()))
         except IndexError: raise SyntaxError('At ' + str(token))
@@ -123,6 +125,8 @@ class MathParser:
           try: token = self.variables[usr][token]
           except KeyError: raise KeyError(str(token))
         stack.append(token)
+
+    #Ensure Variable Saving
     try:
       self.variables[usr]['ans'] = stack[0]
     except:
@@ -135,11 +139,26 @@ class Operator:
   Makes an operator object for supported operators
   '''
   def __init__(self, operator, function, precedence):
+    '''
+    Makes an operator object for any operators
+
+    Arguments:
+      operator -- char one of the operator
+      function -- function defining the operator
+      precedence -- integer defining the order of operations
+    '''
+
     self.operator = operator
     self.function = function
     self.precedence = precedence
 
   def __init__(self, operator):
+    '''
+    Makes an operator object for supported operators
+
+    Arguments:
+      operator -- char one of the predefined operators
+    '''
     self.operator = operator
 
     if operator is '^':
@@ -171,3 +190,4 @@ class Operator:
 
   def __repr__(self):
     return str(self)
+    

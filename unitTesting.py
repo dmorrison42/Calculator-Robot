@@ -50,6 +50,7 @@ class TestMessageParsing(unittest.TestCase):
     test(self, 'x', '2')
 
   def test_errors(self):
+    # Attempt to raise errors
     test(self, 'hi', "Unknown Variable: 'hi'")
     test(self, '3)', 'Syntax Error: Unmatched Parentheses')
     test(self, '(1+3', 'Syntax Error: Unmatched Parentheses')
@@ -57,12 +58,11 @@ class TestMessageParsing(unittest.TestCase):
     test(self, '^3', 'Syntax Error: At ^')
     test(self, '3^^3', 'Syntax Error: At ^')
 
-
-
   def test_order_of_operations(self):
+    # Some 'tricky' expressions to test order of operations
     test(self, '3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3', '3.000122')
     test(self, '2+3*3+2', '13')
     
-
 if __name__ == '__main__':
   unittest.main()
+  
