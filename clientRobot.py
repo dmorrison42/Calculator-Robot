@@ -62,6 +62,7 @@ class ClientBot(sleekxmpp.ClientXMPP):
            event does not provide any additional
            data.
     '''
+    print("Type exit to exit")
     print("Request: hello")
     self.send_presence()
     self.get_roster()
@@ -80,9 +81,10 @@ class ClientBot(sleekxmpp.ClientXMPP):
     if msg['type'] in ('chat', 'normal'):
       print('Response: ' + msg['body'])
       request = raw_input("Request: ")
+      if request == 'exit':
+        print('Attempt to exit.')
+        self.disconnect()
       msg.reply(request).send()
-      if request is 'exit':
-        sys.exit(0)
 
   def startConnection(self, blocking=True):
     # Connect to the XMPP server and start processing XMPP stanzas.
@@ -116,6 +118,8 @@ if __name__ == '__main__':
                   help="server to use for client")
   optp.add_option("-u", "--client-port", dest="client_port",
                   help="port to use for client (default 5222)")
+  optp.add_option('-t', '--client-target', dest='client_target',
+                  help="target for client",)
 
   # Login options robot
   optp.add_option("-J", "--robot-jid", dest="robot_jid",
@@ -144,21 +148,27 @@ if __name__ == '__main__':
     opts.client_port = raw_input("Client Port (default: 5222): ")
   if not opts.client_port:
     opts.client_port = 5222
+  if opts.client_target is None:
+    pts.client_target = raw_input('Client Target: (default robot username)')
+
 
   # Server Live Login
   if opts.robot_jid is None:
-      opts.robot_jid = raw_input("Client Username: ")
+      opts.robot_jid = raw_input("Robot Username: ")
   if opts.robot_password is None:
-      opts.robot_password = getpass.getpass("Client Password: ")
+      opts.robot_password = getpass.getpass("Robot Password: ")
   #Only request port if server is not specified
   if opts.robot_server is None:
-    opts.robot_server = raw_input("Client Server: ")
-    opts.robot_port = raw_input("Client Port (default: 5222): ")
+    opts.robot_server = raw_input("Robot Server: ")
+    opts.robot_port = raw_input("Robot Port (default: 5222): ")
   if not opts.robot_port:
     opts.robot_port = 5222
   
+  #Default Target
+  if opts.client_target is '':
+    pts.client_target = opts.robot_jid
+
   # Create Object
   calculator = CalculatorBot(opts.robot_jid, opts.robot_password, opts.robot_server, opts.robot_port).startConnection(blocking=False)
-  client = ClientBot(opts.client_jid, opts.client_password, '14sbu5okz0vtk1mx733u8fyrbe@public.talk.google.com', opts.client_server, opts.client_port).startConnection(blocking=True)
-  sys.exit(0)
-
+  client = ClientBot(opts.client_jid, opts.client_password, opts.client_target, opts.client_server, opts.client_port).startConnection(blocking=True)
+  calculator.disconnect()

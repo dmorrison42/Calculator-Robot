@@ -53,6 +53,8 @@ Options:
                         server to use for client
   -u CLIENT_PORT, --client-port=CLIENT_PORT
                         port to use for client (default 5222)
+  -t CLIENT_TARGET, --client-target=CLIENT_TARGET
+                        target for client
   -J ROBOT_JID, --robot-jid=ROBOT_JID
                         JID to use for robot
   -P ROBOT_PASSWORD, --robot-password=ROBOT_PASSWORD
