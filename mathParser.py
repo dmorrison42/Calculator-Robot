@@ -44,10 +44,10 @@ class MathParser:
       return ('%f' % self.process_queue(queue, usr)).rstrip('0').rstrip('.')
     
     # Graceful Error Handeling
-    except SyntaxError as e: return "Syntax Error: " + str(e)
-    except KeyError as e: return "Unknown Variable: " + str(e)
-    except OverflowError: return "Overflow: Number too large"
-    except Exception as e: return "Unknown Error: " + str(e)
+    except SyntaxError as e: return 'Syntax Error: ' + str(e)
+    except KeyError as e: return 'Unknown Variable: ' + str(e)
+    except OverflowError: return 'Overflow: Number too large'
+    except Exception as e: return 'Unknown Error: ' + str(e)
 
   # Shunting Yard Algorithm
   def infix_to_prefix(self, expr):
@@ -93,13 +93,13 @@ class MathParser:
               queue.append(token)
               token = stack.pop()
             continue
-          except IndexError: raise SyntaxError("Unmatched Parentheses")
+          except IndexError: raise SyntaxError('Unmatched Parentheses')
         #Variables and Floats   
         queue.append(token)
     while stack:
       queue.append(stack.pop())
       if queue[-1] is '(':
-        raise SyntaxError("Unmatched Parentheses")
+        raise SyntaxError('Unmatched Parentheses')
     return queue
 
   #Process the queue
@@ -158,7 +158,7 @@ class Operator:
       self.function = (lambda x, y: x - y)
       self.precedence = 2
     else:
-      raise ValueError("No such operator: " + str(operator))
+      raise ValueError('No such operator: ' + str(operator))
 
   def __cmp__(self,other):
     return self.precedence - other.precedence

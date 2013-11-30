@@ -62,8 +62,8 @@ class ClientBot(sleekxmpp.ClientXMPP):
            event does not provide any additional
            data.
     '''
-    print("Type exit to exit")
-    print("Request: hello")
+    print('Type exit to exit')
+    print('Request: hello')
     self.send_presence()
     self.get_roster()
     self.sendMessage(self.target, 'hello')
@@ -80,7 +80,7 @@ class ClientBot(sleekxmpp.ClientXMPP):
     # Check Message Type
     if msg['type'] in ('chat', 'normal'):
       print('Response: ' + msg['body'])
-      request = raw_input("Request: ")
+      request = raw_input('Request: ')
       if request == 'exit':
         print('Attempt to exit.')
         self.disconnect()
@@ -110,26 +110,26 @@ if __name__ == '__main__':
                     const=5, default=logging.INFO)
 
   # Login options client
-  optp.add_option("-j", "--client-jid", dest="client_jid",
-                  help="JID to use for client")
-  optp.add_option("-p", "--client-password", dest="client_password",
-                  help="password to use for client")
-  optp.add_option("-s", "--client-server", dest="client_server",
-                  help="server to use for client")
-  optp.add_option("-u", "--client-port", dest="client_port",
-                  help="port to use for client (default 5222)")
+  optp.add_option('-j', '--client-jid', dest='client_jid',
+                  help='JID to use for client')
+  optp.add_option('-p', '--client-password', dest='client_password',
+                  help='password to use for client')
+  optp.add_option('-s', '--client-server', dest='client_server',
+                  help='server to use for client')
+  optp.add_option('-u', '--client-port', dest='client_port',
+                  help='port to use for client (default 5222)')
   optp.add_option('-t', '--client-target', dest='client_target',
-                  help="target for client",)
+                  help='target for client',)
 
   # Login options robot
-  optp.add_option("-J", "--robot-jid", dest="robot_jid",
-                  help="JID to use for robot")
-  optp.add_option("-P", "--robot-password", dest="robot_password",
-                  help="password to use for robot")
-  optp.add_option("-S", "--robot-server", dest="robot_server",
-                  help="server to use for robot")
-  optp.add_option("-U", "--robot-port", dest="robot_port",
-                  help="port to use for robot (default 5222)")
+  optp.add_option('-J', '--robot-jid', dest='robot_jid',
+                  help='JID to use for robot')
+  optp.add_option('-P', '--robot-password', dest='robot_password',
+                  help='password to use for robot')
+  optp.add_option('-S', '--robot-server', dest='robot_server',
+                  help='server to use for robot')
+  optp.add_option('-U', '--robot-port', dest='robot_port',
+                  help='port to use for robot (default 5222)')
 
   opts, args = optp.parse_args()
   
@@ -139,13 +139,13 @@ if __name__ == '__main__':
 
   # Client Live Login
   if opts.client_jid is None:
-      opts.client_jid = raw_input("Client Username: ")
+      opts.client_jid = raw_input('Client Username: ')
   if opts.client_password is None:
-      opts.cleint_password = getpass.getpass("Client Password: ")
+      opts.cleint_password = getpass.getpass('Client Password: ')
   #Only request port if server is not specified
   if opts.client_server is None:
-    opts.client_server = raw_input("Client Server: ")
-    opts.client_port = raw_input("Client Port (default: 5222): ")
+    opts.client_server = raw_input('Client Server: ')
+    opts.client_port = raw_input('Client Port (default: 5222): ')
   if not opts.client_port:
     opts.client_port = 5222
   if opts.client_target is None:
@@ -154,13 +154,13 @@ if __name__ == '__main__':
 
   # Server Live Login
   if opts.robot_jid is None:
-      opts.robot_jid = raw_input("Robot Username: ")
+      opts.robot_jid = raw_input('Robot Username: ')
   if opts.robot_password is None:
-      opts.robot_password = getpass.getpass("Robot Password: ")
+      opts.robot_password = getpass.getpass('Robot Password: ')
   #Only request port if server is not specified
   if opts.robot_server is None:
-    opts.robot_server = raw_input("Robot Server: ")
-    opts.robot_port = raw_input("Robot Port (default: 5222): ")
+    opts.robot_server = raw_input('Robot Server: ')
+    opts.robot_port = raw_input('Robot Port (default: 5222): ')
   if not opts.robot_port:
     opts.robot_port = 5222
   

@@ -134,14 +134,14 @@ if __name__ == '__main__':
                     const=5, default=logging.INFO)
 
   # Login options
-  optp.add_option("-j", "--jid", dest="jid",
-                  help="JID to use")
-  optp.add_option("-p", "--password", dest="password",
-                  help="password to use")
-  optp.add_option("-s", "--server", dest="server",
-                  help="server to use")
-  optp.add_option("-u", "--port", dest="port",
-                  help="port to use (default 5222)")
+  optp.add_option('-j', '--jid', dest='jid',
+                  help='JID to use')
+  optp.add_option('-p', '--password', dest='password',
+                  help='password to use')
+  optp.add_option('-s', '--server', dest='server',
+                  help='server to use')
+  optp.add_option('-u', '--port', dest='port',
+                  help='port to use (default 5222)')
 
   opts, args = optp.parse_args()
   # Setup logging.
@@ -150,13 +150,13 @@ if __name__ == '__main__':
 
 
   if opts.jid is None:
-      opts.jid = raw_input("Username: ")
+      opts.jid = raw_input('Username: ')
   if opts.password is None:
-      opts.password = getpass.getpass("Password: ")
+      opts.password = getpass.getpass('Password: ')
   #Only request port if server is not specified
   if opts.server is None:
-    opts.server = raw_input("Server: ")
-    opts.port = raw_input("Port (default: 5222): ")
+    opts.server = raw_input('Server: ')
+    opts.port = raw_input('Port (default: 5222): ')
   if not opts.port:
     opts.port = 5222
   
