@@ -89,6 +89,11 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
           + Hello: Prints world
           # Setting Variables: #
           > Variables must be set one at a time using the following syntax 
+          # Answer Variable #
+          + request 4+4
+          + response 8
+          + request: ans + 2 
+          + response: 10
           + foo = 4+4
           > Note: variables are case sensitive
           # Math: #
@@ -154,9 +159,10 @@ if __name__ == '__main__':
   if opts.server is None:
     opts.server = raw_input("Server: ")
     opts.port = raw_input("Port (default: 5222): ")
-  if opts.port is '':
+  if not opts.port:
     opts.port = 5222
   
   # Create Object
   #xmpp = CalculatorBot(opts.jid, opts.password, opts.server, int(opts.port)).startConnection()
   xmpp = CalculatorBot(opts.jid, opts.password, opts.server, opts.port).startConnection()
+

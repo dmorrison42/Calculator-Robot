@@ -123,6 +123,11 @@ class MathParser:
           try: token = self.variables[usr][token]
           except KeyError: raise KeyError(str(token))
         stack.append(token)
+    try:
+      self.variables[usr]['ans'] = stack[0]
+    except:
+      self.variables[usr] = {}
+      self.variables[usr]['ans'] = stack[0]
     return stack[0]
 
 class Operator:
