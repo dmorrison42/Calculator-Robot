@@ -47,6 +47,7 @@ class MathParser:
     except SyntaxError as e: return 'Syntax Error: ' + str(e)
     except KeyError as e: return 'Unknown Variable: ' + str(e)
     except OverflowError: return 'Overflow: Number too large'
+    except ZeroDivisionError: return 'Cannot divide by zero'
     except Exception as e: return 'Unknown Error: ' + str(e)
 
   # Shunting Yard Algorithm

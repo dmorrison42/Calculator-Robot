@@ -57,6 +57,7 @@ class TestMessageParsing(unittest.TestCase):
     test(self, '123456789^123456789', 'Overflow: Number too large')
     test(self, '^3', 'Syntax Error: At ^')
     test(self, '3^^3', 'Syntax Error: At ^')
+    test(self, '5/0', 'Cannot divide by zero')
 
   def test_order_of_operations(self):
     # Some 'tricky' expressions to test order of operations
