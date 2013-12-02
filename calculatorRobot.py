@@ -88,13 +88,14 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
           + Hello: Prints world
           # Setting Variables: #
           > Variables must be set one at a time using the following syntax 
-          # Answer Variable #
-          + request 4+4
-          + response 8
-          + request: ans + 2 
-          + response: 10
-          + foo = 4+4
           > Note: variables are case sensitive
+          + Request: foo = 4+4
+          + Response: foo is set to 8
+          # Answer Variable #
+          + Request: 4+4
+          + Response: 8
+          + Request: ans + 2 
+          + Response: 10
           # Math: #
           > Supports the following operators using the PEMDAS order of operations.
           + Parentheses: () 
