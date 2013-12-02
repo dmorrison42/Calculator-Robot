@@ -79,9 +79,9 @@ Note non specified arguments will be requested via the interactive login
 # Dependencies #
 This software is designed to be cross platform, and therefore requires only the following two dependencies:
 
-+ python (tested on 2.7.6, 3.3.3, Windows, OSX, Linux)
++ [python](http://python.org/) (tested on 2.7.6, 3.3.3, Windows, OSX, Linux)
 + [sleekxmpp 1.0](http://sleekxmpp.com) (included in the stand alone package)
-+ Many jabber/XMPP accounts supported. Tested on Google Talk and FaceBook Chat
++ [xmpp](http://xmpp.org/) (tested with Google Talk and FaceBook)
 
 # Design Notes #
 mathParse.py is a library designed to create a safe eval() function for this project.
