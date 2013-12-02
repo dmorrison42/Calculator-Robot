@@ -86,7 +86,7 @@ class ClientBot(sleekxmpp.ClientXMPP):
         request = raw_input('Request: ')
       if request == 'exit':
         print('Attempt to exit.')
-        self.disconnect()
+        self.disconnect(wait=True)
       msg.reply(request).send()
 
   def startConnection(self, blocking=True):
@@ -152,7 +152,7 @@ if __name__ == '__main__':
   if not opts.client_port:
     opts.client_port = 5222
   if opts.client_target is None:
-    pts.client_target = raw_input('Client Target: (default robot username)')
+    opts.client_target = raw_input('Client Target: (default robot username)')
 
 
   # Server Live Login
@@ -169,9 +169,9 @@ if __name__ == '__main__':
   
   #Default Target
   if opts.client_target is '':
-    pts.client_target = opts.robot_jid
+    opts.client_target = opts.robot_jid
 
   # Create Object
   calculator = CalculatorBot(opts.robot_jid, opts.robot_password, opts.robot_server, opts.robot_port).startConnection(blocking=False)
   client = ClientBot(opts.client_jid, opts.client_password, opts.client_target, opts.client_server, opts.client_port).startConnection(blocking=True)
-  calculator.disconnect()
+  calculator.disconnect(wait=True)
