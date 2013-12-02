@@ -144,7 +144,7 @@ if __name__ == '__main__':
   if opts.client_jid is None:
       opts.client_jid = raw_input('Client Username: ')
   if opts.client_password is None:
-      opts.cleint_password = getpass.getpass('Client Password: ')
+      opts.client_password = getpass.getpass('Client Password: ')
   #Only request port if server is not specified
   if opts.client_server is None:
     opts.client_server = raw_input('Client Server: ')
