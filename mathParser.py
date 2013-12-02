@@ -45,7 +45,12 @@ class MathParser:
     
     # Graceful Error Handeling
     except SyntaxError as e: return 'Syntax Error: ' + str(e)
-    except KeyError as e: return 'Unknown Variable: ' + str(e)
+    except KeyError as e: 
+      error = str(e)[1:-1]
+      if len(error) == 1 and not error.isalpha():
+        return 'Unknown Symbol: ' + str(e)
+      return 'Unknown Variable: ' + str(e)
+
     except OverflowError: return 'Overflow: Number too large'
     except ZeroDivisionError: return 'Cannot divide by zero'
     except Exception as e: return 'Unknown Error: ' + str(e)
