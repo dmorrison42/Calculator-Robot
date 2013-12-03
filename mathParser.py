@@ -19,7 +19,7 @@ class MathParser:
       usr -- The namespace in which the variables are stored
     '''
     # Remove spaces before beginning
-    expr = expr.replace(' ','')
+    expr = ''.join(expr.split())
 
     try:
       # Handle Assignment
