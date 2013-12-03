@@ -18,10 +18,11 @@ class MathParser:
       expr -- String: The expression to be evaluated
       usr -- The namespace in which the variables are stored
     '''
-    # Remove spaces before beginning
-    expr = ''.join(expr.split())
     
     try:
+      # Remove spaces before beginning
+      expr = ''.join(expr.encode('ascii', 'ignore').split())
+
       # Handle Assignment
       if '=' in expr:
         terms = expr.split('=',1)
