@@ -19,8 +19,8 @@ class MathParser:
       usr -- The namespace in which the variables are stored
     '''
     # Remove spaces before beginning
-    expr = ''.join(expr.split())
-
+    expr = expr.encode('ascii', 'ignore').replace(' ','')
+    
     try:
       # Handle Assignment
       if '=' in expr:
@@ -66,8 +66,6 @@ class MathParser:
     stack = []
     queue = []
     
-    # Remove spaces before starting
-    expr = expr.replace(' ','') 
     # Alter string to list of tokens
     expr = list(re.findall('((?<=[\A\w\d\.])[-\+]|[-\+]*[\w\d\.]+|.)', expr))
     # Pops items off the list till completed
