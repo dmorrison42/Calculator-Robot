@@ -14,6 +14,7 @@ class TestMessageParsing(unittest.TestCase):
   def test_parentheses(self):
     # order of operations
     test(self, '1*(1+2)*3', '9')
+    test(self, '10+3(2+6)', 'Syntax Error: Missing operator')
 
   def test_exponents(self):
     test(self, '2^3', '8')

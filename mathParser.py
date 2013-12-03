@@ -66,8 +66,8 @@ class MathParser:
     stack = []
     queue = []
     
-    # Remove spaces before begining
-    expr = expr.replace(' ','')
+    # Remove spaces before starting
+    expr = expr.replace(' ','') 
     # Alter string to list of tokens
     expr = list(re.findall('((?<=[\A\w\d\.])[-\+]|[-\+]*[\w\d\.]+|.)', expr))
     # Pops items off the list till completed
@@ -137,6 +137,8 @@ class MathParser:
     except:
       self.variables[usr] = {}
       self.variables[usr]['ans'] = stack[0]
+    if len(stack) is not 1:
+      raise SyntaxError('Missing operator')
     return stack[0]
 
 class Operator:
