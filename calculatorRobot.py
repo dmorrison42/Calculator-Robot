@@ -162,6 +162,5 @@ if __name__ == '__main__':
     opts.port = 5222
   
   # Create Object
-  #xmpp = CalculatorBot(opts.jid, opts.password, opts.server, int(opts.port)).startConnection()
   xmpp = CalculatorBot(opts.jid, opts.password, opts.server, opts.port).startConnection()
 

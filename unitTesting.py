@@ -36,6 +36,8 @@ class TestMessageParsing(unittest.TestCase):
     test(self, '2+2+4', '8')
     # Test adding a negative number
     test(self, '2+-3', '-1')
+    # Test redundant addition
+    test(self, '2++3', '5')
 
   def test_subtraction(self):
     # Test direction of subtraction

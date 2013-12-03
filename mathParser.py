@@ -69,8 +69,7 @@ class MathParser:
     # Remove spaces before begining
     expr = expr.replace(' ','')
     # Alter string to list of tokens
-    expr = list(re.findall('(^[-\+][\w\d\.]+|(?<![\(\)\^\*/\+-])[-\+]|[-\+]*[\w\d\.]+|[\(\)\^\*/\+]|.)', expr))
-    
+    expr = list(re.findall('((?<=[\A\w\d\.])[-\+]|[-\+]*[\w\d\.]+|.)', expr))
     # Pops items off the list till completed
     while expr:
       token = expr.pop(0)
