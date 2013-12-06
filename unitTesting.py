@@ -47,7 +47,7 @@ class TestMessageParsing(unittest.TestCase):
     test(self, '16-26', '-10')
 
   def test_variables(self):
-    test(self, 'x=2', 'x is set to 2')
+    test(self, 'x = 2', 'x is set to 2')
     test(self, 'x+3','5')
     # Test simple recall
     test(self, 'x', '2')

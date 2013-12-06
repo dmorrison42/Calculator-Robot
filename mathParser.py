@@ -20,17 +20,17 @@ class MathParser:
     '''
     
     try:
-      # Remove spaces before beginning
-      expr = ''.join(expr.encode('ascii', 'ignore').split())
-
       # Handle Assignment
       if '=' in expr:
+        # Remove spaces
+        expr = re.sub('\s','',expr)
+        # Divide into expression and assignment
         terms = expr.split('=',1)
         if '=' in terms:
           raise SyntaxError('One assignment per message')
         if not terms[0].isalpha():
           raise SyntaxError('Alphanumeric variable names only')
-        queue = self.infix_to_prefix(terms[1])
+        queue = self.infix_to_postfix(terms[1])
         response = self.process_queue(queue, usr)
         #Ensure variable gets saved in namespace
         try:
@@ -41,10 +41,10 @@ class MathParser:
         return terms[0] + ' is set to ' + ('%f' % response).rstrip('0').rstrip('.')
       
       # Queue and return expression
-      queue = self.infix_to_prefix(expr)
+      queue = self.infix_to_postfix(expr)
       return ('%f' % self.process_queue(queue, usr)).rstrip('0').rstrip('.')
     
-    # Graceful Error Handeling
+    # Graceful Error Handling
     except SyntaxError as e: return 'Syntax Error: ' + str(e)
     except KeyError as e: 
       error = str(e)[1:-1]
@@ -57,7 +57,7 @@ class MathParser:
     except Exception as e: return 'Unknown Error: ' + str(e)
 
   # Shunting Yard Algorithm
-  def infix_to_prefix(self, expr):
+  def infix_to_postfix(self, expr):
     '''
     Converts an infix expression to a postfix queue
 
@@ -67,10 +67,8 @@ class MathParser:
     stack = []
     queue = []
     
-    # Remove spaces before starting
-    expr = expr.replace(' ','') 
     # Alter string to list of tokens
-    expr = list(re.findall('((?<=[\w\d\.])[-\+]|[-\+]*[\w\d\.]+|.)', expr))
+    expr = list(re.findall('((?<=[\w\d\.])[-\+]|[-\+]*[\w\d\.]+|\S)', expr))
     # Pops items off the list till completed
     while expr:
       token = expr.pop(0)

@@ -79,7 +79,7 @@ Note non specified arguments will be requested via the interactive login
 # Dependencies #
 This software is designed to be cross platform, and therefore requires only the following two dependencies:
 
-+ [python](http://python.org/) (tested on 2.7.6, Windows, OSX, Linux)
++ [python](http://python.org/) (tested with python 2.7.5 and 3.3.3 on Windows, OSX, and Linux)
 + [sleekxmpp 1.0](http://sleekxmpp.com) (included in the stand alone package)
 + [xmpp](http://xmpp.org/) (tested with Google Talk and FaceBook)
 
