@@ -75,10 +75,6 @@ class MathParser:
       # If token is float append it to queue
       try:
         token = Operator(token)
-        #Handle special ^ case
-        if stack and str(token) is '^' and str(stack[-1]) is '^':
-          stack.append(token)
-          continue
         # If there is an operator at the top of the stack
         # If the operator is less than o2
         while stack and stack[-1] is not '(' and token <= stack[-1]:
@@ -148,7 +144,8 @@ class Operator:
   '''
   
   operators = {
-    '^': {'function': (lambda x, y: x ** y), 'precedence': 4},
+    '^': {'function': (lambda x, y: x ** y), 'precedence': 4, 
+          'associativity': 'right'},
     '*': {'function': (lambda x, y: x * y), 'precedence': 3},
     '/': {'function': (lambda x, y: x / y), 'precedence': 3},
     '+': {'function': (lambda x, y: x + y), 'precedence': 2},
@@ -174,7 +171,11 @@ class Operator:
       self.operator = operator 
 
   def __cmp__(self,other):
-    return self.operator['precedence'] - other.operator['precedence']
+    try:
+      if self.operator['associativity'] == 'right':
+        return self.operator['precedence'] - other.operator['precedence'] + 1
+    except KeyError:
+      return self.operator['precedence'] - other.operator['precedence']
 
   def __str__(self):
     return self.operator['char']
