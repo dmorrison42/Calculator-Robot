@@ -1,4 +1,4 @@
-from mathParser import MathParser
+from mathParser import *
 import unittest
 
 def test(self, test, result):
@@ -66,6 +66,10 @@ class TestMessageParsing(unittest.TestCase):
     # Some 'tricky' expressions to test order of operations
     test(self, '3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3', '3.000122')
     test(self, '2+3*3+2', '13')
+
+  def test_modulo(self):
+    Operator({'char':'%', 'function':(lambda x, y: x % y), 'precedence': 3})
+    test(self, '6%5', '1')
     
 if __name__ == '__main__':
   unittest.main()

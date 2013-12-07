@@ -143,57 +143,44 @@ class MathParser:
 class Operator:
   '''
   Makes an operator object for supported operators
+
+  To add supported operators see __init__
   '''
-  def __init__(self, operator, function, precedence):
-    '''
-    Makes an operator object for any operators
-
-    Arguments:
-      operator -- char one of the operator
-      function -- function defining the operator
-      precedence -- integer defining the order of operations
-    '''
-
-    self.operator = operator
-    self.function = function
-    self.precedence = precedence
+  
+  operators = {
+    '^': {'function': (lambda x, y: x ** y), 'precedence': 4},
+    '*': {'function': (lambda x, y: x * y), 'precedence': 3},
+    '/': {'function': (lambda x, y: x / y), 'precedence': 3},
+    '+': {'function': (lambda x, y: x + y), 'precedence': 2},
+    '-': {'function': (lambda x, y: x - y), 'precedence': 2}
+  }
 
   def __init__(self, operator):
     '''
-    Makes an operator object for supported operators
+    Creates an operator object for supported operators
 
     Arguments:
       operator -- char one of the predefined operators
+      operator -- a dictionary containing keys for char function and precedence
+                  {'char':'%', 'function':(lambda x, y: x % y), 'precedence': 3}
     '''
-    self.operator = operator
-
-    if operator is '^':
-      self.function = (lambda x, y: x ** y)
-      self.precedence = 4
-    elif operator is '*':
-      self.function = (lambda x, y: x * y)
-      self.precedence = 3
-    elif operator is '/':
-      self.function = (lambda x, y: x / y)
-      self.precedence = 3
-    elif operator is '+':
-      self.function = (lambda x, y: x + y)
-      self.precedence = 2
-    elif operator is '-':
-      self.function = (lambda x, y: x - y)
-      self.precedence = 2
-    else:
+    try:
+      self.operator = self.operators[operator]
+      self.operator['char'] = operator 
+    except KeyError:
       raise ValueError('No such operator: ' + str(operator))
+    except TypeError:
+      self.operators[operator.pop('char')] = operator
+      self.operator = operator 
 
   def __cmp__(self,other):
-    return self.precedence - other.precedence
+    return self.operator['precedence'] - other.operator['precedence']
 
   def __str__(self):
-    return self.operator
+    return self.operator['char']
 
   def __call__(self, x, y):
-    return self.function(x,y)
+    return self.operator['function'](x,y)
 
   def __repr__(self):
     return str(self)
-    
