@@ -27,7 +27,7 @@ class TestMessageParsing(unittest.TestCase):
 
   def test_division(self):
     # Test division direction
-    test(self, '16/4/2','2') 
+    test(self, '16/4/2','2')
     # Test float responses
     test(self, '1/2', '0.5')
     # Test addition of fractions
@@ -70,7 +70,7 @@ class TestMessageParsing(unittest.TestCase):
   def test_modulo(self):
     Operator({'char':'%', 'function':(lambda x, y: x % y), 'precedence': 3})
     test(self, '6%5', '1')
-    
+
 if __name__ == '__main__':
   unittest.main()
-  
+

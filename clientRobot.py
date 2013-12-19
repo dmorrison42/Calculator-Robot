@@ -33,8 +33,8 @@ class ClientBot(sleekxmpp.ClientXMPP):
 
   def __init__(self, jid, password, target, server, port = 5222):
     '''
-    Initiates the class 
-    
+    Initiates the class
+
     Arguments:
       jid -- String: The of the jid of the robot
       password -- String: The password of the robot
@@ -100,7 +100,7 @@ class ClientBot(sleekxmpp.ClientXMPP):
 
 if __name__ == '__main__':
   optp = OptionParser()
-  
+
   # Output verbosity options.
   optp.add_option('-q', '--quiet', help='set logging to ERROR',
                   action='store_const', dest='loglevel',
@@ -135,7 +135,7 @@ if __name__ == '__main__':
                   help='port to use for robot (default 5222)')
 
   opts, args = optp.parse_args()
-  
+
   # Setup logging.
   logging.basicConfig(level=opts.loglevel,
                       format='%(levelname)-8s %(message)s')
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     opts.robot_port = raw_input('Robot Port (default: 5222): ')
   if not opts.robot_port:
     opts.robot_port = 5222
-  
+
   #Default Target
   if opts.client_target is '':
     opts.client_target = opts.robot_jid

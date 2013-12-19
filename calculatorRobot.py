@@ -34,8 +34,8 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
 
   def __init__(self, jid, password, server, port = 5222):
     '''
-    Initiates the class 
-    
+    Initiates the class
+
     Arguments:
       jid -- String: The of the jid of the robot
       password -- String: The password of the robot
@@ -87,18 +87,18 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
           + Author: Prints the author's name
           + Hello: Prints world
           # Setting Variables: #
-          > Variables must be set one at a time using the following syntax 
+          > Variables must be set one at a time using the following syntax
           > Note: variables are case sensitive
           + Request: foo = 4+4
           + Response: foo is set to 8
           # Answer Variable #
           + Request: 4+4
           + Response: 8
-          + Request: ans + 2 
+          + Request: ans + 2
           + Response: 10
           # Math: #
           > Supports the following operators using the PEMDAS order of operations.
-          + Parentheses: () 
+          + Parentheses: ()
           + Exponents: ^
           + Multiplication: *
           + Division: /
@@ -122,7 +122,7 @@ class CalculatorBot(sleekxmpp.ClientXMPP):
 
 if __name__ == '__main__':
   optp = OptionParser()
-  
+
   # Output verbosity options.
   optp.add_option('-q', '--quiet', help='set logging to ERROR',
                   action='store_const', dest='loglevel',
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     opts.port = raw_input('Port (default: 5222): ')
   if not opts.port:
     opts.port = 5222
-  
+
   # Create Object
   xmpp = CalculatorBot(opts.jid, opts.password, opts.server, opts.port).startConnection()
 

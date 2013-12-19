@@ -8,7 +8,7 @@ class MathParser:
   '''
   # dictionary containing variables in the following format variables[jid][variable]
   variables = {}
-  
+
   # Evaluate
   def eval(self, expr, usr='default'):
     '''
@@ -18,7 +18,7 @@ class MathParser:
       expr -- String: The expression to be evaluated
       usr -- The namespace in which the variables are stored
     '''
-    
+
     try:
       # Handle Assignment
       if '=' in expr:
@@ -39,11 +39,11 @@ class MathParser:
           self.variables[usr] = {}
           self.variables[usr][terms[0]] = response
         return terms[0] + ' is set to ' + ('%f' % response).rstrip('0').rstrip('.')
-      
+
       # Queue and return expression
       queue = self.infix_to_postfix(expr)
       return ('%f' % self.process_queue(queue, usr)).rstrip('0').rstrip('.')
-    
+
     # Graceful Error Handling
     except SyntaxError as e: return 'Syntax Error: ' + str(e)
     except KeyError as e: 
@@ -66,7 +66,7 @@ class MathParser:
     '''
     stack = []
     queue = []
-    
+
     # Alter string to list of tokens
     expr = list(re.findall('((?<=[\w\d\.])[-\+]|[-\+]*[\w\d\.]+|\S)', expr))
     # Pops items off the list till completed
@@ -94,7 +94,7 @@ class MathParser:
               token = stack.pop()
             continue
           except IndexError: raise SyntaxError('Unmatched Parentheses')
-        # Variables and Floats   
+        # Variables and Floats
         queue.append(token)
     while stack:
       queue.append(stack.pop())
@@ -142,9 +142,9 @@ class Operator:
 
   To add supported operators see __init__
   '''
-  
+
   operators = {
-    '^': {'function': (lambda x, y: x ** y), 'precedence': 4, 
+    '^': {'function': (lambda x, y: x ** y), 'precedence': 4,
           'associativity': 'right'},
     '*': {'function': (lambda x, y: x * y), 'precedence': 3},
     '/': {'function': (lambda x, y: x / y), 'precedence': 3},
@@ -163,12 +163,12 @@ class Operator:
     '''
     try:
       self.operator = self.operators[operator]
-      self.operator['char'] = operator 
+      self.operator['char'] = operator
     except KeyError:
       raise ValueError('No such operator: ' + str(operator))
     except TypeError:
       self.operators[operator.pop('char')] = operator
-      self.operator = operator 
+      self.operator = operator
 
   def __cmp__(self,other):
     try:
